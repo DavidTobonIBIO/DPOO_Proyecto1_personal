@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="19.0.2" class="java.beans.XMLDecoder">
+ <object class="autenticador.Usuario">
+  <void property="login">
+   <string>isa</string>
+  </void>
+  <void property="password">
+   <string>1234</string>
+  </void>
+  <void property="type">
+   <string>admin</string>
+  </void>
+ </object>
+</java>
