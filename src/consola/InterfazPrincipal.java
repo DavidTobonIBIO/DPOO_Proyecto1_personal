@@ -13,6 +13,8 @@ public class InterfazPrincipal extends Interfaz
 	private InterfazAdmin interfazAdmin;
 	private InterfazRecepcion interfazRecepcion;
 	private InterfazServicios interfazServicios;
+	private InterfazTarifas interfazTarifas;
+	private InterfazHabitaciones interfazHabitaciones;
 	
 	public InterfazPrincipal()
 	{
@@ -21,6 +23,9 @@ public class InterfazPrincipal extends Interfaz
 		this.interfazAdmin = new InterfazAdmin(this);
 		this.interfazRecepcion = new InterfazRecepcion(this);
 		this.interfazServicios = new InterfazServicios(this);
+		this.interfazTarifas = new InterfazTarifas(controlador);
+		this.interfazHabitaciones = new InterfazHabitaciones(this);
+		
 	}
 
 	@Override
@@ -97,23 +102,32 @@ public class InterfazPrincipal extends Interfaz
 	private void ejecutarInterfazAdmin()
 	{
 		interfazAdmin.iniciarInterfaz();
-		
+	}
+	
+	public void ejecutarInterfazTarifas()
+	{
+		interfazTarifas.iniciarInterfaz();
+	}
+	
+	public void ejecutarInterfazHabitaciones()
+	{
+		interfazHabitaciones.iniciarInterfaz();		
 	}
 
-	private void ejecutarInterfazRecepcion()
+	public void ejecutarInterfazRecepcion()
 	{
 		interfazRecepcion.iniciarInterfaz();
-		
 	}
 
-	private void ejecutarInterfazServicios()
+	public void ejecutarInterfazServicios()
 	{
 		interfazServicios.iniciarInterfaz();
 	}
 
 	private void ejecutarCargarDatosHotel()
 	{
-		controlador.cargarDatos();
+		String datosCargados = controlador.cargarDatos();
+		System.out.println(datosCargados);
 	}
 
 	public static void main(String[] args)

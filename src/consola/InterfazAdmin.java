@@ -12,8 +12,66 @@ public class InterfazAdmin extends Interfaz
 	@Override
 	public void iniciarInterfaz()
 	{
-		// TODO Auto-generated method stub
+		System.out.println("\nPortal de administración\n");
+		
+		ejecutarRevisionDeTarifas365Dias();
+		
+		boolean continuar = true;
+		while (continuar)
+		{
+			try
+			{
+				mostrarMenu();
+				int seleccion = Integer.parseInt(input("Seleccione una opción"));
+				
+				if (seleccion == 1)
+					ejecutarInterfazTarifas();
+				else if (seleccion == 2)
+					ejecutarInterfazHabitaciones();
+				else if (seleccion == 3)
+					goToInterfazRecepcion();
+				else if (seleccion == 4)
+					goToInterfazServicios();
+				else if (seleccion == 5)
+				{
+					System.out.println("Cerrando sesión...\n");
+					continuar = false;
+				}
+				else
+				{
+					System.out.println("\nPor favor seleccione una opción válida.");
+				}
+			}
+			catch (NumberFormatException e)
+			{
+				System.out.println("Debe seleccionar uno de los números de las opciones.");
+			}
+		}
+	}
+	
+	private void ejecutarRevisionDeTarifas365Dias()
+	{
+		// TODO interfazPrincipal.ejecutarRevisionDeTarifas365Dias();
+	}
 
+	private void ejecutarInterfazTarifas()
+	{
+		interfazPrincipal.ejecutarInterfazTarifas();		
+	}
+
+	private void ejecutarInterfazHabitaciones()
+	{
+		interfazPrincipal.ejecutarInterfazHabitaciones();		
+	}
+
+	private void goToInterfazRecepcion()
+	{
+		interfazPrincipal.ejecutarInterfazRecepcion();
+	}
+
+	private void goToInterfazServicios()
+	{
+		interfazPrincipal.ejecutarInterfazServicios();
 	}
 
 	@Override
@@ -26,5 +84,4 @@ public class InterfazAdmin extends Interfaz
 		System.out.println("4. Menú servicios");
 		System.out.println("5. Cerrar sesión");
 	}
-
 }
