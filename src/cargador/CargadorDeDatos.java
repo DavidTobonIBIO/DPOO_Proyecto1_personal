@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import autenticador.Usuario;
 import controlador.Controlador;
+import modelo.Habitacion;
 import modelo.TarifasHabitacion;
 
 public class CargadorDeDatos
@@ -16,13 +17,12 @@ public class CargadorDeDatos
 	private Controlador controlador;
 	private String carpetaUsuarios;
 	private String carpetaTarifas;
-	private String carpetaHabitacionesEstandar;
-	private String carpetaHabitacionesSuite;
-	private String carpetaHabitacionesSuiteDoble;
+	private String carpetaHabitaciones;
 	private String carpetaServicios;
 	private String carpetaProductos;
 	private HashMap<String, Usuario> mapaUsuarios;
 	private HashMap<String, TarifasHabitacion> mapaTarifas;
+	private HashMap<String, Habitacion> mapaHabitaciones;
 	
 	public CargadorDeDatos(Controlador controlador)
 	{
@@ -30,14 +30,13 @@ public class CargadorDeDatos
 		
 		this.carpetaUsuarios = "data/usuarios/";
 		this.carpetaTarifas = "data/tarifas/";
-		this.carpetaHabitacionesEstandar = "data/habitaciones/estandar/";
-		this.carpetaHabitacionesSuite = "data/habitaciones/suite/";
-		this.carpetaHabitacionesSuiteDoble = "data/habitaciones/suitedoble/";
+		this.carpetaHabitaciones = "data/habitaciones/";
 		this.carpetaServicios = "data/servicios/";
 		this.carpetaProductos = "data/productos/";
 		
 		this.mapaUsuarios = new HashMap<String, Usuario>();
 		this.mapaTarifas = new HashMap<String, TarifasHabitacion>();
+		this.mapaHabitaciones = new HashMap<String, Habitacion>();
 	}
 	
 	public HashMap<String, Integer> infoDeCarga()
@@ -45,6 +44,7 @@ public class CargadorDeDatos
 		HashMap<String, Integer> dictInfoCarga = new HashMap<String, Integer>();
 		
 		dictInfoCarga.put("Usuarios", mapaUsuarios.size());
+		dictInfoCarga.put("Habitaciones", mapaHabitaciones.size());
 		
 		return dictInfoCarga;
 	}
@@ -53,6 +53,7 @@ public class CargadorDeDatos
 	{
 		cargarUsuarios();
 		cargarTarifasHabitacion();
+		cargarHabitaciones();
 	}
 	
 	private void cargarUsuarios()
@@ -102,11 +103,11 @@ public class CargadorDeDatos
 		String[] hijos = directorio.list();
 		if (hijos != null)
 		{
-			for (String archivoUsuario : hijos)
+			for (String archivo : hijos)
 			{
 				try 
 				{
-					FileInputStream fis = new FileInputStream(carpetaTarifas + archivoUsuario);
+					FileInputStream fis = new FileInputStream(carpetaTarifas + archivo);
 					XMLDecoder decoder = new XMLDecoder(fis);
 					Object obj;
 
@@ -135,7 +136,46 @@ public class CargadorDeDatos
 			}
 			controlador.setTarifas(mapaTarifas);
 		}
-
 	}
 	
+	public void cargarHabitaciones()
+	{
+		File directorio = new File(carpetaHabitaciones);
+		String[] hijos = directorio.list();
+		if (hijos != null)
+		{
+			for (String archivo : hijos)
+			{
+				try 
+				{
+					FileInputStream fis = new FileInputStream(carpetaHabitaciones + archivo);
+					XMLDecoder decoder = new XMLDecoder(fis);
+					Object obj;
+
+					while (true) {
+						try {
+							obj = decoder.readObject();
+
+							if (obj instanceof Habitacion) {
+								Habitacion hab = (Habitacion) obj;
+								String id = hab.getId();
+								mapaHabitaciones.put(id, hab);
+							} else {
+								System.err.println("objecto inesperado en el archivo");
+							}
+						} catch (ArrayIndexOutOfBoundsException e3) {
+							break;
+						}
+					}
+					decoder.close();
+					fis.close();
+				} 
+				catch (IOException e1) 
+				{
+					e1.printStackTrace();
+				}
+			}
+			controlador.setHabitaciones(mapaHabitaciones);
+		}
+	}
 }

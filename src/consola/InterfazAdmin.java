@@ -14,7 +14,7 @@ public class InterfazAdmin extends Interfaz
 	{
 		System.out.println("\nPortal de administración\n");
 		
-		ejecutarRevisionDeTarifas365Dias();
+		System.out.println(ejecutarRevisionDeTarifas365Dias());
 		
 		boolean continuar = true;
 		while (continuar)
@@ -49,9 +49,9 @@ public class InterfazAdmin extends Interfaz
 		}
 	}
 	
-	private void ejecutarRevisionDeTarifas365Dias()
+	private String ejecutarRevisionDeTarifas365Dias()
 	{
-		// TODO interfazPrincipal.ejecutarRevisionDeTarifas365Dias();
+		return interfazPrincipal.ejecutarRevisionDeTarifas365Dias();
 	}
 
 	private void ejecutarInterfazTarifas()

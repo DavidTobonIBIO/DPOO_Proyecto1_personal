@@ -10,11 +10,14 @@ import autenticador.Usuario;
 import cargador.CargadorDeDatos;
 import consola.InterfazPrincipal;
 import modelo.CoordinadorPMS;
+import modelo.Habitacion;
 import modelo.TarifasHabitacion;
 
 public class Controlador
 {
 	private static final ArrayList<String> TIPOS_HABITACION = new ArrayList<String>(Arrays.asList("estandar", "suite", "suitedoble"));
+	
+
 	private static final ArrayList<String> DIAS_SEMANA = new ArrayList<String>(Arrays.asList("L", "M", "I", "J", "V", "S", "D"));
 	private static final String[] STRINGS_DIAS_SEMANA = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
 	private static final String[] STRINGS_MESES = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
@@ -26,14 +29,19 @@ public class Controlador
 	private CoordinadorPMS coordinadorPMS;
 	
 
-	public Controlador(InterfazPrincipal interfaz,AutenticadorDeUsuarios autenticador)
+	public Controlador(InterfazPrincipal interfaz, AutenticadorDeUsuarios autenticador)
 	{
 		this.interfaz = interfaz;
 		this.autenticador = autenticador;
 		this.cargador = new CargadorDeDatos(this);
 		this.coordinadorPMS = new CoordinadorPMS(this);
 	}
-
+	
+	public static ArrayList<String> getTiposHabitacion()
+	{
+		return TIPOS_HABITACION;
+	}
+	
 	private static HashMap<String, Integer> crearMapaDiasSemana()
 	{
 		HashMap<String, Integer> mapaDiasSemana = new HashMap<String, Integer>();
@@ -199,5 +207,41 @@ public class Controlador
 	public void setTarifas(HashMap<String, TarifasHabitacion> mapaTarifas)
 	{
 		coordinadorPMS.setTarifasHotel(mapaTarifas);
+	}
+
+	public String revisionTarifas365Dias()
+	{
+		return coordinadorPMS.getFechasSinTarifaStr();
+	}
+
+	public String agregarHabitacion(String tipo, boolean cocina, boolean balcon, boolean vista, String torre,
+			int piso, String id)
+	{
+		if (coordinadorPMS.existeHabitacion(id))
+			return "No se puede agregar porque ya hay una habitación con el id: " + id;
+		else
+		{
+			coordinadorPMS.putHabitacion(tipo, cocina, balcon, vista, torre, piso, id);
+			return "Habitación agregada" + coordinadorPMS.infoHabitacion(id);
+		}
+			
+	}
+	
+	public void setHabitaciones(HashMap<String, Habitacion> habitaciones)
+	{
+		coordinadorPMS.setHabitaciones(habitaciones);
+	}
+
+	public String eliminarHabitacion(String id)
+	{
+		if (coordinadorPMS.eliminarHabitacion(id))
+			return "Habitación " + id + " eliminada.";
+		else
+			return "No se puede eliminar la habitacion " + id +  " porque no existe.";			
+	}
+
+	public String mostrarCatalogoHabitaciones()
+	{
+		return coordinadorPMS.catalogoHabitaciones();
 	}
 }

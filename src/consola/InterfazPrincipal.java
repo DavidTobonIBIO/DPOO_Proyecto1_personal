@@ -21,10 +21,10 @@ public class InterfazPrincipal extends Interfaz
 		this.autenticador = new AutenticadorDeUsuarios();
 		this.controlador = new Controlador(this, autenticador);
 		this.interfazAdmin = new InterfazAdmin(this);
-		this.interfazRecepcion = new InterfazRecepcion(this);
+		this.interfazRecepcion = new InterfazRecepcion(controlador);
 		this.interfazServicios = new InterfazServicios(this);
 		this.interfazTarifas = new InterfazTarifas(controlador);
-		this.interfazHabitaciones = new InterfazHabitaciones(this);
+		this.interfazHabitaciones = new InterfazHabitaciones(controlador);
 		
 	}
 
@@ -49,9 +49,8 @@ public class InterfazPrincipal extends Interfaz
 					ejecutarRegistrarEmpleado();
 				else if (seleccion == 3)
 				{
-					System.out.println("\nSaliendo de la aplicación...\n");
-					// ejecutarSalvarDatosHotel();
 					continuar = false;
+					System.out.println("\nAplicación cerrada.\n");
 				}
 				else
 				{
@@ -134,5 +133,10 @@ public class InterfazPrincipal extends Interfaz
 	{
 		InterfazPrincipal interfaz = new InterfazPrincipal();
 		interfaz.iniciarInterfaz();
+	}
+
+	public String ejecutarRevisionDeTarifas365Dias()
+	{
+		return controlador.revisionTarifas365Dias();	
 	}
 }

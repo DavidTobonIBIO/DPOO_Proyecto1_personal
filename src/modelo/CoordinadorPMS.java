@@ -1,7 +1,9 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import controlador.Controlador;
 import salvador.SalvadorDeDatos;
@@ -14,6 +16,7 @@ public class CoordinadorPMS
 	private Controlador controlador;
 	private SalvadorDeDatos salvador;
 	private HashMap<String, TarifasHabitacion> tarifasHotel;
+	private HashMap<String, Habitacion> mapaHabitaciones;
 
 	public CoordinadorPMS(Controlador controlador)
 	{
@@ -47,5 +50,88 @@ public class CoordinadorPMS
 	{
 		TarifasHabitacion tarifas = tarifasHotel.get(tipo);
 		tarifas.eliminarTarifasEnRangoFechas(fechaInicial, fechaFinal, diasTarifa);
+	}
+	
+	public String getFechasSinTarifaStr()
+	{
+		String fechasSinTarifa = "FECHAS SIN TARIFA";
+		
+		for (Entry<String, TarifasHabitacion> entry : tarifasHotel.entrySet())
+		{
+			TarifasHabitacion tarifas = entry.getValue();
+			String tipo = tarifas.getTipoHabitacion();
+			fechasSinTarifa += "\n" + tipo.toUpperCase() + ": \n";
+			
+			fechasSinTarifa += tarifas.fechasSinTarifa();
+		}
+		
+		return fechasSinTarifa;
+	}
+	
+	public boolean existeHabitacion(String id)
+	{
+		return mapaHabitaciones.containsKey(id);
+	}
+
+	public void putHabitacion(String tipo, boolean cocina, boolean balcon, boolean vista, String torre, int piso,
+			String id)
+	{
+		Habitacion hab;
+		if (tipo.equals(ESTANDAR))
+			hab = (Habitacion) new HabitacionEstandar(cocina, balcon, vista, torre, piso, id);
+		else if (tipo.equals(SUITE))
+			hab = (Habitacion) new HabitacionSuite(cocina, balcon, vista, torre, piso, id);
+		else
+			hab = (Habitacion) new HabitacionSuiteDoble(cocina, balcon, vista, torre, piso, id);
+		mapaHabitaciones.put(id, hab);
+	}
+
+	public String infoHabitacion(String id)
+	{
+		Habitacion habitacion = mapaHabitaciones.get(id);
+		salvador.salvarHabitacion(habitacion);
+		return habitacion.toString();
+	}
+
+	public void setHabitaciones(HashMap<String, Habitacion> mapaHabitaciones)
+	{
+		this.mapaHabitaciones = mapaHabitaciones;		
+	}
+
+	public boolean eliminarHabitacion(String id)
+	{
+		if (mapaHabitaciones.containsKey(id))
+		{
+			mapaHabitaciones.remove(id);
+			salvador.borrarHabitacion(id);
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public HashMap<String, Habitacion> getHabitaciones()
+	{
+		return mapaHabitaciones;
+	}
+
+	public String catalogoHabitaciones()
+	{
+		String catalogo = "";
+		if (mapaHabitaciones.isEmpty())
+			catalogo = "No hay habitaciones";
+		else
+		{
+			ArrayList<Habitacion> listaHabitaciones = new ArrayList<Habitacion>();
+			for (Entry<String, Habitacion> entry : mapaHabitaciones.entrySet())
+				listaHabitaciones.add(entry.getValue());
+			
+			Collections.sort(listaHabitaciones, new ComparadorHabitaciones());
+			
+			for (Habitacion hab : listaHabitaciones)
+				catalogo += hab.toString();
+		}
+
+		return catalogo;
 	}
 }

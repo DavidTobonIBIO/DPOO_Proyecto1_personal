@@ -1,12 +1,14 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TarifasHabitacion
 {
 	private static final int MESES = 12;
-	private static final int DIAS_SEMANA = 7;
+	private static final int DIAS_EN_SEMANA = 7;
 	private static final int[] DIASXMES = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	private static final ArrayList<String> DIAS_SEMANA = new ArrayList<String>(Arrays.asList("L", "M", "I", "J", "V", "S", "D"));
 	private String tipoHabitacion;
 	private ArrayList<ArrayList<ArrayList<ArrayList<Integer>>>> tarifas;
 	
@@ -31,9 +33,9 @@ public class TarifasHabitacion
 			
 			for (int j=0; j<DIASXMES[i]; j++)
 			{
-				ArrayList<ArrayList<Integer>> listaDiaDelMes = new ArrayList<ArrayList<Integer>>(DIAS_SEMANA);
+				ArrayList<ArrayList<Integer>> listaDiaDelMes = new ArrayList<ArrayList<Integer>>(DIAS_EN_SEMANA);
 				
-				for (int k=0; k<DIAS_SEMANA; k++)
+				for (int k=0; k<DIAS_EN_SEMANA; k++)
 				{
 					listaDiaDelMes.add(new ArrayList<Integer>());
 				}
@@ -162,5 +164,39 @@ public class TarifasHabitacion
 				removeTarifa(mes, diaMes, dia);
 	}
 	
+	public String fechasSinTarifa()
+	{
+		String respuesta = "";
+		
+		for (int mes=0; mes<MESES; mes++)
+		{
+			ArrayList<ArrayList<ArrayList<Integer>>> diasMes = tarifas.get(mes);
+			
+			for (int diaMes=0; diaMes<diasMes.size(); diaMes++)
+			{
+				ArrayList<ArrayList<Integer>> diasSemana = diasMes.get(diaMes);
+				ArrayList<String> diasSemanaSinTarifa = new ArrayList<String>();
+				
+				for (int diaSemana=0; diaSemana<diasSemana.size(); diaSemana++)
+				{
+					ArrayList<Integer> listaDia = diasSemana.get(diaSemana);
+					if (listaDia.isEmpty())
+					{
+						diasSemanaSinTarifa.add(DIAS_SEMANA.get(diaSemana));
+					}
+				}
+				if (!diasSemanaSinTarifa.isEmpty())
+				{
+					respuesta += textoFechaSinTarifa(mes, diaMes, diasSemanaSinTarifa);
+				}
+			}
+		}
+		return respuesta;
+	}
+	
+	private String textoFechaSinTarifa(int mes, int diaMes, ArrayList<String> diasSemana) 
+	{
+		return "\tMes: " + (mes+1) + " | Dia: " + (diaMes+1) + " | Dias de la semana: " + diasSemana + "\n";
+	}
 	
 }

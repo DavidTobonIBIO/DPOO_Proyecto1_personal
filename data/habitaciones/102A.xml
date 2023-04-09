@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="19.0.2" class="java.beans.XMLDecoder">
+ <object class="modelo.HabitacionSuite">
+  <void property="camas">
+   <object class="java.util.ArrayList">
+    <void method="add">
+     <object class="modelo.Cama">
+      <void property="capacidadAdultos">
+       <int>2</int>
+      </void>
+      <void property="capacidadNinios">
+       <int>3</int>
+      </void>
+      <void property="tipo">
+       <string>doble</string>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="modelo.Cama">
+      <void property="capacidadAdultos">
+       <int>1</int>
+      </void>
+      <void property="capacidadNinios">
+       <int>2</int>
+      </void>
+      <void property="tipo">
+       <string>sencilla</string>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="modelo.Cama">
+      <void property="capacidadNinios">
+       <int>1</int>
+      </void>
+      <void property="tipo">
+       <string>infantil</string>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+  <void property="capacidadAdultos">
+   <int>3</int>
+  </void>
+  <void property="capacidadNinios">
+   <int>6</int>
+  </void>
+  <void property="id">
+   <string>102A</string>
+  </void>
+  <void property="piso">
+   <int>1</int>
+  </void>
+  <void property="tieneBalcon">
+   <boolean>true</boolean>
+  </void>
+  <void property="tieneVista">
+   <boolean>true</boolean>
+  </void>
+  <void property="tipo">
+   <string>suite</string>
+  </void>
+  <void property="torre">
+   <string>A</string>
+  </void>
+ </object>
+</java>
