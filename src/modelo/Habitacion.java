@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Habitacion
 {
@@ -16,7 +17,7 @@ public abstract class Habitacion
 	private int capacidadNinios;
 	// private HashMap<String, Huesped> huespedes;
 	// private Reserva reservaActual;
-	// private HashMap<String, Reserva> reservas;
+	private HashMap<String, Reserva> reservas;
 	
 	public Habitacion()
 	{
@@ -33,6 +34,7 @@ public abstract class Habitacion
 		this.torre = torre;
 		this.piso = piso;
 		this.id = id;
+		this.reservas = new HashMap<String, Reserva>();
 	}
 
 
@@ -136,10 +138,26 @@ public abstract class Habitacion
 		this.capacidadNinios = capacidadNinios;
 	}
 
+	public HashMap<String, Reserva> getReservas()
+	{
+		return reservas;
+	}
+
+
+	public void setReservas(HashMap<String, Reserva> reservas)
+	{
+		this.reservas = reservas;
+	}
+
+	public void addReserva(Reserva reserva)
+	{
+		this.reservas.put(reserva.getId(), reserva);
+	}
+	
 	@Override
 	public String toString()
 	{
-		String info = "\nHabitacion " + tipo + " " + id + ":";
+		String info = "Habitacion " + tipo + " " + id + ":";
 		
 		info += "\n\tTorre: " + torre;
 		info += "\n\tPiso: " + piso;

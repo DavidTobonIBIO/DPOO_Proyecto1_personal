@@ -1,5 +1,6 @@
 package controlador;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -223,8 +224,7 @@ public class Controlador
 		{
 			coordinadorPMS.putHabitacion(tipo, cocina, balcon, vista, torre, piso, id);
 			return "Habitación agregada" + coordinadorPMS.infoHabitacion(id);
-		}
-			
+		}	
 	}
 	
 	public void setHabitaciones(HashMap<String, Habitacion> habitaciones)
@@ -243,5 +243,26 @@ public class Controlador
 	public String mostrarCatalogoHabitaciones()
 	{
 		return coordinadorPMS.catalogoHabitaciones();
+	}
+
+	public String getInfoHabitacionesDisponibles(LocalDate fecha, int numeroDeNoches)
+	{
+		String infoHabitacionesDisponibles = "";
+		ArrayList<Habitacion> habitaciones = coordinadorPMS.getHabitacionesDisponibles(fecha, numeroDeNoches);
+		int i = 1;
+		if (habitaciones != null)
+			for (Habitacion hab : habitaciones)
+			{
+				infoHabitacionesDisponibles += i + ". " + hab.toString() + "\n";
+				i++;
+			}
+		else
+			infoHabitacionesDisponibles = "No hay habitaciones para " + numeroDeNoches + " noches entre " + fecha.toString() + " y " + fecha.plusDays(numeroDeNoches).toString() + ".";
+		return infoHabitacionesDisponibles;
+	}
+
+	public boolean existeHabitacion(String idHabitacion)
+	{
+		return coordinadorPMS.existeHabitacion(idHabitacion);
 	}
 }

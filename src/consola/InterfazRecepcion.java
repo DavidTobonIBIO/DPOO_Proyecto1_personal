@@ -1,5 +1,7 @@
 package consola;
 
+import java.time.LocalDate;
+
 import controlador.Controlador;
 
 public class InterfazRecepcion extends Interfaz
@@ -56,6 +58,64 @@ public class InterfazRecepcion extends Interfaz
 	}
 
 	private void ejecutarCheckIn()
+	{
+		String esConReserva = input("El huesped ya tiene reserva? (si / no)").toLowerCase();
+		
+		if (esConReserva.equals("si"))
+		{
+			ejecutarCheckInConReserva();
+		}
+		else if (esConReserva.equals("no"))
+		{
+			ejecutarCheckInSinReserva();
+		}
+		else
+			System.out.println("Opción no válida.");
+		
+	}
+
+	private void ejecutarCheckInSinReserva()
+	{
+		LocalDate fechaHoy = LocalDate.now();
+		try
+		{
+			String nombreHuespedResponsable = input("Nombre del huesped responsable");
+			String apellidosHuespedResponsable = input("Apellidos del huesped responsable");
+			String documentoHuespedResponsable = input("Documento de ID");
+			String correoHuespedResponsable = input("Correo electronico");
+			String celularHuespedResponsable = input("Número de celular");
+			int numeroDeNoches = Integer.parseInt(input("¿Cuantas noches?"));
+			int totalHuespedes = Integer.parseInt(input("Número de huéspedes"));
+			int huespedesNoAsignados = totalHuespedes;
+			
+			String habitacionesDisponibles = controlador.getInfoHabitacionesDisponibles(fechaHoy, numeroDeNoches);
+			System.out.println(habitacionesDisponibles);
+			if (habitacionesDisponibles.startsWith("1"))
+			{
+				while (huespedesNoAsignados > 0)
+				{
+					System.out.println(habitacionesDisponibles);
+					String idHabitacion = ("Escriba el id de la habitación seleccionada");
+					boolean existeHabitacion = controlador.existeHabitacion(idHabitacion);
+					if (existeHabitacion)
+					{
+						
+					}
+					else
+						System.out.println("ID incorrecto.");
+				}
+			}
+				
+				
+		}
+		catch (NumberFormatException e)
+		{
+			System.out.println("Debe de usar valores numéricos enteros positivos.");
+		}
+		
+	}
+
+	private void ejecutarCheckInConReserva()
 	{
 		// TODO Auto-generated method stub
 		
