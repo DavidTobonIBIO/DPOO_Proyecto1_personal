@@ -99,7 +99,20 @@ public class InterfazRecepcion extends Interfaz
 					boolean existeHabitacion = controlador.existeHabitacion(idHabitacion);
 					if (existeHabitacion)
 					{
-						
+						boolean continuar = true;
+						while (continuar && controlador.habitacionNoLlena(idHabitacion) && huespedesNoAsignados > 0)
+						{
+							System.out.println("1. Agregar huéspued a la habitación");
+							System.out.println("2. Finalizar configuración de la habitación");
+							int seleccion = Integer.parseInt(input("Elija una opción"));
+							if (seleccion == 1)
+								ejecutarAgregarHuespedAHabitacion();
+							else if (seleccion == 2)
+								continuar = false;
+							else
+								
+								
+						}
 					}
 					else
 						System.out.println("ID incorrecto.");
@@ -110,7 +123,7 @@ public class InterfazRecepcion extends Interfaz
 		}
 		catch (NumberFormatException e)
 		{
-			System.out.println("Debe de usar valores numéricos enteros positivos.");
+			System.out.println("Debe de usar valores numéricos enteros positivos y el número debe estar dentro de las opciones.");
 		}
 		
 	}

@@ -185,8 +185,8 @@ public class CoordinadorPMS
 	{
 		boolean fechaFinalDentroDeReserva = (fechaFinal.isBefore(fechaFinalRango) && fechaFinal.isAfter(fechaInicialRango)) || fechaFinal.isEqual(fechaInicialRango) || fechaFinal.isEqual(fechaFinalRango);
 		boolean fechaInicialDentroDeReserva = (fechaInicial.isBefore(fechaFinalRango) && fechaInicial.isAfter(fechaInicialRango)) || fechaInicial.isEqual(fechaInicialRango) || fechaInicial.isEqual(fechaFinalRango);
-		boolean fechaReservaDentroDeRango = fechaFinal.isAfter(fechaFinalRango) && fechaInicial.isBefore(fechaInicialRango);
+		boolean rangoDentroDeFechas = fechaFinal.isAfter(fechaFinalRango) && fechaInicial.isBefore(fechaInicialRango);
 		
-		return fechaFinalDentroDeReserva || fechaInicialDentroDeReserva || fechaReservaDentroDeRango;
+		return fechaFinalDentroDeReserva || fechaInicialDentroDeReserva || rangoDentroDeFechas;
 	}
 }
